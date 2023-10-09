@@ -1,0 +1,21 @@
+{
+  "name": "aws-associate-be",
+  "version": "1.0.0",
+  "description": "BE repository for aws associate course",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build-ts": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.8.2",
+    "serverless": "^3.35.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@serverless/typescript": "^3.30.1"
+  }
+}

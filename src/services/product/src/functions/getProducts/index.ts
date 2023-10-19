@@ -1,4 +1,4 @@
-import { handlerPath } from "@libs/handler-resolver";
+import { handlerPath } from "@utils";
 
 export default {
   handler: `${handlerPath(__dirname)}/handler/handler.main`,
@@ -7,7 +7,18 @@ export default {
       http: {
         method: "get",
         path: "/products",
-        cors: true,
+        cors: {
+          origin: "*",
+          headers: [
+            "Content-Type",
+            "X-Amz-Date",
+            "Authorization",
+            "X-Api-Key",
+            "X-Amz-Security-Token",
+            "X-Amz-User-Agent",
+            "Access-Control-Allow-Origin",
+          ],
+        },
       },
     },
   ],

@@ -1,12 +1,14 @@
 {
-  "body": "eyJ0ZXN0IjoiYm9keSJ9",
+  "body": {
+    "description": "Short Product Descriptio1",
+    "price": 23,
+    "title": "Wakeboard Liquid Power PRO",
+    "count": 15
+  },
   "resource": "/{proxy+}",
   "path": "/path/to/resource",
-  "httpMethod": "GET",
+  "httpMethod": "POST",
   "isBase64Encoded": true,
-  "pathParameters": {
-    "productId": "7567ec4b-b10c-48c5-9345-fc73c48a80aa"
-  },
   "headers": {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Encoding": "gzip, deflate, sdch",

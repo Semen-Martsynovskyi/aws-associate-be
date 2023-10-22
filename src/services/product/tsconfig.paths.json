@@ -3,8 +3,11 @@
     "baseUrl": ".",
     "paths": {
       "@functions/*": ["src/functions/*"],
-      "@libs/*": ["src/libs/*"],
-      "@mocks/*": ["src/mocks/*"]
+      "@utils": ["src/utils"],
+      "@models": ["src/models"],
+      "@dtos": ["src/dtos"],
+      "@services": ["src/services"],
+      "@mocks": ["src/mocks"]
     }
   }
 }

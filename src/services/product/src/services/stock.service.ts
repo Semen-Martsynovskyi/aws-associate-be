@@ -1,5 +1,5 @@
 import { Stock } from "@models";
-import { BaseService } from "./base.service";
+import { BaseService } from "@core/lib";
 
 class StockService extends BaseService {
   static singleton: boolean;

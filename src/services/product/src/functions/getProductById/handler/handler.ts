@@ -1,6 +1,6 @@
-import type { ValidatedEventAPIGatewayProxyEvent } from "@utils";
-import { formatJSONResponse } from "@utils";
-import { middyfy } from "@utils";
+import type { ValidatedEventAPIGatewayProxyEvent } from "@core/utils";
+import { formatJSONResponse } from "@core/utils";
+import { middyfyHttp } from "@core/utils";
 
 import { schema } from "../schema";
 import { productService } from "@services";
@@ -19,4 +19,4 @@ export const getProductById: ValidatedEventAPIGatewayProxyEvent<
   });
 };
 
-export const main = middyfy(getProductById, schema);
+export const main = middyfyHttp(getProductById, schema);

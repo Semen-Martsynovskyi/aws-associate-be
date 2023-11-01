@@ -1,7 +1,7 @@
 import * as AWS from "aws-sdk";
 import { APIGatewayProxyEvent } from "aws-lambda";
 
-import { formatJSONResponse, middyfy } from "@utils";
+import { formatJSONResponse, middyfyHttp } from "@core/utils";
 import { schema } from "../schema";
 
 export const importProductsFile = async ({
@@ -43,4 +43,4 @@ export const importProductsFile = async ({
   }
 };
 
-export const main = middyfy(importProductsFile, schema);
+export const main = middyfyHttp(importProductsFile, schema);

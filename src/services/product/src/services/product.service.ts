@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 import * as AWS from "aws-sdk";
-import { AvailableProduct, DBParams, Product, Stock } from "@models";
+import { AvailableProduct, Product, Stock } from "@models";
 import { CreateProductDTO } from "@dtos";
-import { BaseService } from "./base.service";
+import { BaseService, DBParams } from "@core/lib";
 import { stockService as stockSrvc } from "./stock.service";
 
 class ProductService extends BaseService {

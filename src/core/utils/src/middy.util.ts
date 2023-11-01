@@ -6,7 +6,7 @@ import validator from "@middy/validator";
 import { transpileSchema } from "@middy/validator/transpile";
 import cors from "@middy/http-cors";
 
-export const middyfy = (handler, schema: Record<string, unknown>) => {
+export const middyfyHttp = (handler, schema: Record<string, unknown>) => {
   return middy(handler)
     .use(middyJsonBodyParser())
     .use(httpEventNormalizer())
@@ -17,4 +17,12 @@ export const middyfy = (handler, schema: Record<string, unknown>) => {
     )
     .use(httpErrorHandler())
     .use(cors());
+};
+
+export const middyfySqs = (handler, schema: Record<string, unknown>) => {
+  return middy(handler).use(
+    validator({
+      eventSchema: transpileSchema(schema),
+    })
+  );
 };

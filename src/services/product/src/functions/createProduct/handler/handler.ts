@@ -1,8 +1,8 @@
 import {
   ValidatedEventAPIGatewayProxyEvent,
   formatJSONResponse,
-  middyfy,
-} from "@utils";
+  middyfyHttp,
+} from "@core/utils";
 import { bodySchema, schema } from "../schema";
 import { productService } from "@services";
 import { CreateProductDTO } from "@dtos";
@@ -21,4 +21,4 @@ export const createProduct: ValidatedEventAPIGatewayProxyEvent<
   });
 };
 
-export const main = middyfy(createProduct, schema);
+export const main = middyfyHttp(createProduct, schema);

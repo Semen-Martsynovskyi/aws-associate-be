@@ -67,6 +67,7 @@ class ProductService extends BaseService {
       description: productCreate.description,
       price: productCreate.price,
     };
+    console.log(product, productCreate);
     const stock: Stock = { product_id: product.id, count: productCreate.count };
 
     const params: AWS.DynamoDB.DocumentClient.TransactWriteItemsInput = {

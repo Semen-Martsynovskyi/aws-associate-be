@@ -1,5 +1,5 @@
 import * as AWS from "aws-sdk";
-import { DBParams } from "@models";
+import { DBParams } from "../models";
 
 export abstract class BaseService {
   protected abstract readonly BASE_PARAMS: DBParams;

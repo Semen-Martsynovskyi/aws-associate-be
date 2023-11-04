@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "lib": ["ESNext"],
     "moduleResolution": "node",
     "noUnusedLocals": true,
@@ -12,11 +11,7 @@
     "types": ["node"],
     "typeRoots": ["./node_modules/@types"],
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@models": ["src/models"],
-      "@basic": ["src/basic"]
-    }
+    "resolveJsonModule": true
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [

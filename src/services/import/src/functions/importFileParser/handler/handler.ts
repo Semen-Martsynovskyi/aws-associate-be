@@ -1,28 +1,48 @@
 import * as AWS from "aws-sdk";
 import { S3Event } from "aws-lambda";
 import csvParser from "csv-parser";
+import stripBom from "strip-bom-stream";
 
 const importFileParser = async (event: S3Event) => {
-  const s3 = new AWS.S3({ region: "us-east-1" });
+  const s3 = new AWS.S3({ region: process.env.REGION });
+  const sqs = new AWS.SQS({ region: process.env.REGION });
   console.log({ event });
 
   for (const record of event.Records) {
     const bucketName = record.s3.bucket.name;
     const srcKey = decodeURIComponent(record.s3.object.key.replace(/\+/g, " ")); // S3 keyname decoding
-    console.log("start");
     const s3Stream = s3
       .getObject({
         Bucket: bucketName,
         Key: srcKey,
       })
       .createReadStream();
-    const parser = csvParser();
-    s3Stream.pipe(parser);
-    parser.on("data", (data) => {
-      console.log(data);
-    });
-    await streamFinished(parser);
-    console.log("streamFinished");
+
+    const products = [];
+    s3Stream
+      .pipe(stripBom())
+      .pipe(
+        csvParser({
+          separator: ";",
+          mapValues: ({ header, index, value }) =>
+            header === "count" || header === "price" ? Number(value) : value,
+        })
+      )
+      .on("data", async (data) => {
+        console.log({ data });
+        products.push(data as never);
+        await sqs
+          .sendMessage({
+            QueueUrl: process.env.SQS_CATALOG_ITEMS_URL!,
+            MessageBody: JSON.stringify(data),
+          })
+          .promise();
+      })
+      .on("end", () => {
+        console.log(products);
+      });
+
+    await streamFinished(s3Stream);
 
     const targetKey = srcKey.replace("uploaded/", "parsed/");
 

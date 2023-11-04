@@ -24,7 +24,7 @@ export const importProductsFile = async ({
     ContentType: "text/csv",
   };
 
-  const s3 = new AWS.S3({ region: "us-east-1" });
+  const s3 = new AWS.S3({ region: process.env.REGION });
 
   try {
     const signedUrl = s3.getSignedUrl("putObject", s3Params);

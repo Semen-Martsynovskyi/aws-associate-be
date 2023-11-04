@@ -19,10 +19,11 @@ export const middyfyHttp = (handler, schema: Record<string, unknown>) => {
     .use(cors());
 };
 
-export const middyfySqs = (handler, schema: Record<string, unknown>) => {
-  return middy(handler).use(
-    validator({
-      eventSchema: transpileSchema(schema),
-    })
-  );
+export const middyfySqs = (handler, _: Record<string, unknown>) => {
+  return middy(handler).use(middyJsonBodyParser());
+  // .use(
+  //   validator({
+  //     eventSchema: transpileSchema(schema),
+  //   })
+  // );
 };

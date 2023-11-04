@@ -1,7 +1,9 @@
 import { mockProducts, mockStocks } from "../mocks";
 import * as AWS from "aws-sdk";
 
-const dynamoClient = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
+const dynamoClient = new AWS.DynamoDB.DocumentClient({
+  region: process.env.REGION,
+});
 
 async function populateWithMocks(): Promise<void> {
   await dynamoClient

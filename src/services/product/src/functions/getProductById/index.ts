@@ -1,7 +1,7 @@
-import { handlerPath } from "@utils";
+import { handlerPath } from "@core/utils";
 
 export default {
-  handler: `${handlerPath(__dirname)}/handler/handler.main`,
+  handler: `${handlerPath(__dirname)}/handler.main`,
   events: [
     {
       http: {

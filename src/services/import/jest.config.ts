@@ -16,6 +16,6 @@ const config: Config.InitialOptions = {
   },
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   modulePaths: [compilerOptions.baseUrl],
-  // setupFiles: ["./jest.setup.js"],
+  setupFiles: ["./jest.setup.js"],
 };
 export default config;

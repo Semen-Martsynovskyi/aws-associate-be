@@ -3,7 +3,6 @@
     "baseUrl": ".",
     "paths": {
       "@functions/*": ["src/functions/*"],
-      "@utils": ["src/utils"],
       "@models": ["src/models"],
       "@dtos": ["src/dtos"],
       "@services": ["src/services"],

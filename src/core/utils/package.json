@@ -1,0 +1,26 @@
+{
+  "name": "@core/utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1475.0",
+    "@middy/core": "^3.4.0",
+    "@middy/http-cors": "^4.6.5",
+    "@middy/http-error-handler": "^4.6.5",
+    "@middy/http-event-normalizer": "^4.6.5",
+    "@middy/http-json-body-parser": "^3.4.0",
+    "@middy/validator": "^4.6.5"
+  },
+  "devDependencies": {
+    "json-schema-to-ts": "^1.5.0",
+    "@types/aws-lambda": "^8.10.71",
+    "@types/node": "^14.18.63"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

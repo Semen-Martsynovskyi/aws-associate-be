@@ -1,6 +1,6 @@
 import { mockAvailableProducts } from "@mocks";
 import { getProducts } from "./handler";
-import { formatJSONResponse } from "@utils";
+import { formatJSONResponse } from "@core/utils";
 import { productService } from "@services";
 
 describe("getProducts", () => {

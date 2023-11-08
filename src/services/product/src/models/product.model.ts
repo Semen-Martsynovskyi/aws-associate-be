@@ -17,3 +17,8 @@ export enum ProductType {
   AVAILABLE = "available",
   EACH = "each",
 }
+
+export enum PriceType {
+  LUXURY = 'Luxury',
+  STANDARD = 'Standard',
+}

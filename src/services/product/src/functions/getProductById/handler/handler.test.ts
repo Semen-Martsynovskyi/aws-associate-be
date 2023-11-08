@@ -1,4 +1,4 @@
-import { formatJSONResponse } from "@utils";
+import { formatJSONResponse } from "@core/utils";
 import { getProductById } from "./handler";
 import { productService } from "@services";
 import { mockProduct } from "@mocks";

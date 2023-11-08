@@ -3,11 +3,15 @@ import type { AWS } from "@serverless/typescript";
 import getProductById from "@functions/getProductById";
 import getProducts from "@functions/getProducts";
 import createProduct from "@functions/createProduct";
+import catalogBatchProcess from "@functions/catalogBatchProcess";
+import { dbConfig } from "./serverless.db";
+import { iamConfig } from "./serverless.iam";
 
 const serverlessConfiguration: AWS = {
+  useDotenv: true,
   service: "product-service",
   frameworkVersion: "3",
-  plugins: ["serverless-esbuild"],
+  plugins: ["serverless-esbuild", "serverless-dotenv-plugin"],
   provider: {
     name: "aws",
     runtime: "nodejs16.x",
@@ -22,43 +26,17 @@ const serverlessConfiguration: AWS = {
     },
     iam: {
       role: {
-        statements: [
-          {
-            Effect: "Allow",
-            Action: [
-              "dynamodb:Query",
-              "dynamodb:BatchGetItem",
-              "dynamodb:BatchWriteItem",
-              "dynamodb:Scan",
-              "dynamodb:GetItem",
-              "dynamodb:PutItem",
-              "dynamodb:UpdateItem",
-              "dynamodb:DeleteItem",
-              "dynamodb:TransactWriteItems",
-            ],
-            Resource: "arn:aws:dynamodb:us-east-1:871722638155:table/stocks",
-          },
-          {
-            Effect: "Allow",
-            Action: [
-              "dynamodb:Query",
-              "dynamodb:BatchGetItem",
-              "dynamodb:BatchWriteItem",
-              "dynamodb:Scan",
-              "dynamodb:GetItem",
-              "dynamodb:PutItem",
-              "dynamodb:UpdateItem",
-              "dynamodb:DeleteItem",
-              "dynamodb:TransactWriteItems",
-            ],
-            Resource: "arn:aws:dynamodb:us-east-1:871722638155:table/products",
-          },
-        ],
+        statements: [...iamConfig],
       },
     },
   },
   // import the function via paths
-  functions: { getProductById, getProducts, createProduct },
+  functions: {
+    getProductById,
+    getProducts,
+    createProduct,
+    catalogBatchProcess,
+  },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -74,47 +52,43 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
-      ProductsTable: {
-        Type: "AWS::DynamoDB::Table",
+      ...dbConfig,
+      SQSProductQueue: {
+        Type: "AWS::SQS::Queue",
         Properties: {
-          TableName: "products",
-          AttributeDefinitions: [
-            {
-              AttributeName: "id",
-              AttributeType: "S",
-            },
-          ],
-          KeySchema: [
-            {
-              AttributeName: "id",
-              KeyType: "HASH",
-            },
-          ],
-          ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1,
+          QueueName: "catalogItemsQueue",
+        },
+      },
+      CreateProductTopic: {
+        Type: "AWS::SNS::Topic",
+        Properties: {
+          DisplayName: "Product Creation Topic",
+          TopicName: "createProductTopic",
+        },
+      },
+      EmailSubscriptionBasic: {
+        Type: "AWS::SNS::Subscription",
+        Properties: {
+          Protocol: "email",
+          TopicArn: {
+            Ref: "CreateProductTopic",
+          },
+          Endpoint: "semen_martsynovskyi@epam.com",
+          FilterPolicy: {
+            priceType: ["Standard"],
           },
         },
       },
-      StockTable: {
-        Type: "AWS::DynamoDB::Table",
+      EmailSubscriptionLuxury: {
+        Type: "AWS::SNS::Subscription",
         Properties: {
-          TableName: "stocks",
-          AttributeDefinitions: [
-            {
-              AttributeName: "product_id",
-              AttributeType: "S",
-            },
-          ],
-          KeySchema: [
-            {
-              AttributeName: "product_id",
-              KeyType: "HASH",
-            },
-          ],
-          ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1,
+          Protocol: "email",
+          TopicArn: {
+            Ref: "CreateProductTopic",
+          },
+          Endpoint: "testertoster9197@gmail.com",
+          FilterPolicy: {
+            priceType: ["Luxury"],
           },
         },
       },

@@ -3,9 +3,10 @@ import importFileParser from "@functions/importFileParser";
 import importProductsFile from "@functions/importProductsFile";
 
 const serverlessConfiguration: AWS = {
+  useDotenv: true,
   service: "import-service",
   frameworkVersion: "3",
-  plugins: ["serverless-esbuild"],
+  plugins: ["serverless-esbuild", "serverless-dotenv-plugin"],
   provider: {
     name: "aws",
     runtime: "nodejs16.x",
@@ -22,12 +23,18 @@ const serverlessConfiguration: AWS = {
       {
         Effect: "Allow",
         Action: [
+          "s3:ListBucket",
           "s3:GetObject",
           "s3:PutObject",
           "s3:CopyObject",
           "s3:DeleteObject",
         ],
         Resource: "arn:aws:s3:::aws-associate-sem-files/*",
+      },
+      {
+        Effect: "Allow",
+        Action: ["sqs:SendMessage"],
+        Resource: "arn:aws:sqs:us-east-1:871722638155:catalogItemsQueue",
       },
     ],
   },

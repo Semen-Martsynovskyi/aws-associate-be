@@ -37,6 +37,14 @@ const serverlessConfiguration: AWS = {
         Resource: "arn:aws:sqs:us-east-1:871722638155:catalogItemsQueue",
       },
     ],
+    httpApi: {
+      cors: {
+        allowCredentials: true,
+        allowedOrigins: ["https://d6jsiwcrn06l.cloudfront.net"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        allowedMethods: ["OPTIONS", "POST", "GET"],
+      },
+    },
   },
   // import the function via paths
   functions: { importProductsFile, importFileParser },
@@ -68,6 +76,17 @@ const serverlessConfiguration: AWS = {
               },
             ],
           },
+        },
+      },
+      GatewayResponse4XX: {
+        Type: "AWS::ApiGateway::GatewayResponse",
+        Properties: {
+          ResponseType: "DEFAULT_4XX",
+          ResponseParameters: {
+            "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+            "gatewayresponse.header.Access-Control-Allow-Headers": "'*'",
+          },
+          RestApiId: { Ref: "ApiGatewayRestApi" },
         },
       },
     },
